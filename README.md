@@ -31,6 +31,9 @@ python3 vc_boards.py
 python3 jdl_client.py
 ```
 
+The resume render gate (`pipeline/render/`) additionally needs Google Chrome and
+`qpdf` (`brew install qpdf` on macOS; edit the Chrome path in `render.sh` on Linux).
+
 Optional: put one company name per line in `discovery/exclusions.txt` to filter out
 orgs you have already applied to. Scoring weights and hard-constraint filters live at
 the top of each script and are meant to be edited; they encode one candidate's
