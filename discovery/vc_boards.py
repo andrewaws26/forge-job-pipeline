@@ -3,7 +3,7 @@
 + Getro API (General Catalyst, Khosla). No keys needed. Verified live 2026-06-10.
 Filters to Andrew's constraints, excludes applied/dispositioned orgs, dedupes on ATS apply URL.
 Writes outputs/vc_boards.md. See outputs/new_sources.md for the full source map."""
-import json, re, urllib.request
+import json, os, re, urllib.request
 
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
 
@@ -80,6 +80,7 @@ def getro_sweep():
 
 
 def main():
+    os.makedirs("outputs", exist_ok=True)
     rows, seen_urls = [], set()
     print("Consider boards..."); jobs = consider_sweep()
     print(f"  {len(jobs)} raw")

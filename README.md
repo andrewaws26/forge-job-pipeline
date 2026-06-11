@@ -14,6 +14,28 @@ requirement (what did we submit, where, when, claiming what?). The same architec
 automates this automates claims intake, vendor onboarding, or any forms-and-evidence
 workflow.
 
+## Quickstart
+
+No dependencies beyond Python 3.9+ (standard library only).
+
+```bash
+git clone https://github.com/andrewaws26/forge-job-pipeline.git
+cd forge-job-pipeline/discovery
+
+# Sweep 8 VC portfolio job boards (a16z, Sequoia, Greylock, Bessemer,
+# Lightspeed, Felicis via the Consider API; General Catalyst, Khosla via Getro).
+# Takes ~60s, writes a scored, deduped shortlist to outputs/vc_boards.md
+python3 vc_boards.py
+
+# Sweep JobDataLake (1M+ jobs, 40+ ATS vendors, free MCP endpoint, no key)
+python3 jdl_client.py
+```
+
+Optional: put one company name per line in `discovery/exclusions.txt` to filter out
+orgs you have already applied to. Scoring weights and hard-constraint filters live at
+the top of each script and are meant to be edited; they encode one candidate's
+constraints and are the part you would personalize first.
+
 ## Architecture
 
 ```

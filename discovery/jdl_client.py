@@ -3,7 +3,7 @@
 Runs Andrew's criteria across his lanes + a real Louisville search, parses results,
 applies client-side filters (exclude Humana/OpenAI, drop staff+/leadership, flag hard
 gaps), dedupes, ranks (Louisville > clean remote > gap-flagged), writes outputs/jdl_batch.md."""
-import json, re, urllib.request
+import json, os, re, urllib.request
 
 EP = "https://mcp.jobdatalake.com"
 
@@ -84,6 +84,7 @@ LANES = [
 ]
 
 def main():
+    os.makedirs("outputs", exist_ok=True)
     sid = init()
     print("session ok; running", len(LANES), "searches")
     allj = {}
