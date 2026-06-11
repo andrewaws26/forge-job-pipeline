@@ -98,3 +98,13 @@ approving scope; `playbook/` and `docs/` codify what the agent learned so the st
 harden into standalone adapters. This repo is the system as designed and operated, not a
 puffed-up wrapper: the distinction matters to me, because the whole point of the honesty
 layer is that the artifact never claims more than the evidence supports.
+
+### Runtime
+
+The code in `discovery/` and `pipeline/render/` is plain Python 3 and shell: no agent
+runtime, no API keys. The agent stages (vet, tailor, submit) were operated in Claude
+Code with a Playwright MCP server for browser control, but the playbook is written as
+harness-agnostic patterns: any agent runtime with browser automation, file access, and
+parallel sub-tasks could execute it. Claude Code was the runtime of choice, not a
+dependency of the design.
+
