@@ -1,0 +1,50 @@
+/* Shared resume stylesheet: single column, ATS-safe, navy accent, one page */
+@page { size: letter; margin: 0; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 8.9pt;
+  line-height: 1.18;
+  color: #1c2733;
+  padding: 0.36in 0.45in 0.3in 0.45in;
+}
+header h1 {
+  font-size: 19pt;
+  letter-spacing: 0.5px;
+  color: #16294d;
+  font-weight: 700;
+}
+.tagline {
+  font-size: 10.2pt;
+  color: #16294d;
+  font-weight: 600;
+  margin-top: 2px;
+}
+.contact {
+  font-size: 8.6pt;
+  color: #3d4a5c;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+.contact a { color: #3d4a5c; text-decoration: none; }
+h2 {
+  font-size: 9.6pt;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #16294d;
+  border-bottom: 1.25px solid #16294d;
+  padding-bottom: 1px;
+  margin: 5px 0 3px 0;
+}
+.summary { margin-bottom: 2px; }
+.job, .project { margin-bottom: 4px; }
+.role-line { display: flex; justify-content: space-between; align-items: baseline; }
+.role-line .role { font-weight: 700; font-size: 9.8pt; }
+.role-line .dates { font-size: 8.8pt; color: #3d4a5c; white-space: nowrap; }
+.org { font-size: 8.9pt; color: #3d4a5c; font-style: italic; margin-bottom: 1px; }
+ul { margin-left: 14px; }
+li { margin-bottom: 1px; }
+.skills p { margin-bottom: 2px; }
+.skills b { color: #16294d; }
+.edu { margin-bottom: 2px; }
+strong { color: #16294d; }

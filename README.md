@@ -55,7 +55,7 @@ discover -> vet -> tailor -> submit -> verify -> record
    comp, required-vs-preferred skills, and company reality. Kills keyword-score false
    positives; this run it caught 7 dead postings and 3 hard-requirement mismatches before
    any effort was spent.
-3. **Tailor** (the honesty layer, see `docs/honesty-layer.md`): every resume bullet must
+3. **Tailor** (the honesty layer, see `docs/honesty-layer.md` and `docs/tailor-stage.md`; render pipeline in `pipeline/render/`): every resume bullet must
    trace to an entry in a verified claims bank. The tailor stage refuses claims not in the
    bank. Persuasion under a truth constraint is the differentiator: the output survives
    interview scrutiny because nothing in it is inflated.
