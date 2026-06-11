@@ -1,0 +1,17 @@
+{
+  "$comment": "Machine-readable application record. One entry per disposition.",
+  "example": {
+    "company": "ExampleCo",
+    "role": "Senior AI Engineer",
+    "ats": "greenhouse",
+    "url": "https://job-boards.greenhouse.io/exampleco/jobs/123",
+    "status": "submitted | ready_blocked_captcha | skipped | rejected | interviewing",
+    "confirmed": true,
+    "date": "2026-06-11",
+    "round": 4,
+    "resume": "Candidate - ExampleCo - Senior AI Engineer.pdf",
+    "cover_letter": null,
+    "comp": "$170-250K",
+    "notes": "Custom questions answered; confirmation banner verified."
+  }
+}

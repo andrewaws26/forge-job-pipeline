@@ -1,0 +1,5 @@
+exclusions.txt
+outputs/
+*.pdf
+applications.json
+.env
