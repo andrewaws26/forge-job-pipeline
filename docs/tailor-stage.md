@@ -1,6 +1,6 @@
 # The tailor stage: how a resume gets written
 
-Inputs: the vetted JD (with its exact vocabulary), the claims bank, the narrative
+Inputs: the vetted JD (with its exact vocabulary), the claims bank (schema and worked example: `pipeline/claims-bank.example.md`), the narrative
 experience structure. Output: one HTML file, rendered to a provably one-page PDF.
 
 1. **Angle selection** (agent): read the JD's required/preferred lists and pick which

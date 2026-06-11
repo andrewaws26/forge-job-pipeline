@@ -34,7 +34,8 @@ python3 jdl_client.py
 Optional: put one company name per line in `discovery/exclusions.txt` to filter out
 orgs you have already applied to. Scoring weights and hard-constraint filters live at
 the top of each script and are meant to be edited; they encode one candidate's
-constraints and are the part you would personalize first.
+constraints and are the part you would personalize first, along with your own claims
+bank (start from `pipeline/claims-bank.example.md`).
 
 ## Architecture
 
