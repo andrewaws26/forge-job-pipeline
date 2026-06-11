@@ -40,6 +40,16 @@ the top of each script and are meant to be edited; they encode one candidate's
 constraints and are the part you would personalize first, along with your own claims
 bank (start from `pipeline/claims-bank.example.md`).
 
+## Hand it to an agent
+
+If you use Claude Code: open the cloned folder and say
+**"Read CLAUDE.md and get this pipeline working for me."**
+The repo ships its own agent operating instructions (CLAUDE.md): the agent will
+interview you for your constraints, personalize the discovery sweeps, build your
+claims bank from your real artifacts (with your confirmation on every entry), and
+operate the apply loop under the documented human checkpoints. Any other agent
+harness: paste CLAUDE.md as the system/task prompt.
+
 ## Architecture
 
 ```
