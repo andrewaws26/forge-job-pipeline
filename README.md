@@ -81,6 +81,26 @@ discover -> vet -> tailor -> submit -> verify -> record
    confirmation after. No submission is recorded as sent without platform confirmation.
 6. **Record**: human-readable tracker + machine-readable JSON + append-only history.
 
+## Why it works: acceptance criteria as the control surface
+
+The architecture principle underneath every stage: deterministic gates around
+non-deterministic work. The agent supplies judgment; the harness supplies structure,
+context, and — critically — acceptance criteria at every stage boundary. The agent
+iterates against those criteria until they pass or a human checkpoint halts the loop.
+
+The gates come in two strengths, deliberately. Mechanical criteria are incorruptible:
+a resume renders to exactly one page or the build fails (`qpdf` counts, the model does
+not get a vote); a submission is only "confirmed" when the platform's success state is
+observed; a vet verdict is incomplete without a live URL and a hard-requirements check.
+Judgment criteria — claims traceability, voice, precision of deployment-status wording —
+are applied by the agent under instruction and audited by the human. The mechanical
+gates are load-bearing precisely because a language model can rationalize past prose
+rules but cannot argue with a page count.
+
+Acceptance criteria are to agents what tests are to code: the spec is the control
+surface. That is also why the model is a replaceable component here — swap the engine
+and the gates still hold.
+
 ## Human checkpoints by design
 
 - **Captchas are not defeated; they are routed to a human.** A filled form blocked by
