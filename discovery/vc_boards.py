@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
-"""VC portfolio board sweep: Consider API (a16z/Sequoia/Greylock/Bessemer/Lightspeed/Felicis)
-+ Getro API (General Catalyst, Khosla). No keys needed. Verified live 2026-06-10.
-Filters to Andrew's constraints, excludes applied/dispositioned orgs, dedupes on ATS apply URL.
-Writes outputs/vc_boards.md. See outputs/new_sources.md for the full source map."""
+"""VC portfolio job-board sweep. One run hits 8 boards through 2 free, keyless APIs.
+
+How these endpoints were found: by watching the network tab on each board. Six VC
+boards (a16z, Sequoia, Greylock, Bessemer, Lightspeed, Felicis) are all white-label
+deployments of Consider.com and expose the IDENTICAL search endpoint on their own
+hosts; General Catalyst and Khosla run on Getro, which has a shared collections API.
+Both return structured JSON with salary data and a direct ATS apply link, which makes
+them better discovery sources than most paid job APIs.
+
+Output: a scored, deduped shortlist in outputs/vc_boards.md. The scoring weights and
+filters encode one candidate's constraints; personalize them first (see README)."""
 import json, os, re, urllib.request
 
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
@@ -15,15 +22,24 @@ CONSIDER_BOARDS = [
     ("Lightspeed", "jobs.lsvp.com", "lightspeed"),
     ("Felicis", "jobs.felicis.com", "felicis"),
 ]
+# Getro identifies each VC's job network by a numeric collection id. These were
+# extracted from the boards' embedded Next.js page data (network.id field).
 GETRO_NETWORKS = [("General Catalyst", 222), ("Khosla", 257)]
 
+# Consider's titlePrefix search is TITLE-scoped (precise, low noise), so several
+# narrow queries beat one broad one. Getro only does full-text (noisier); it gets
+# fewer queries below and leans on client-side filtering.
 TITLE_QUERIES = ["AI engineer", "forward deployed", "applied AI", "AI agents", "software engineer AI"]
 
-SEEN_CO = []  # load your own applied/dispositioned org names
+# Orgs already applied to / rejected / dead live in a gitignored file, one name per
+# line: disposition history is personal data and stays out of the repo by design.
+SEEN_CO = []
 try:
     SEEN_CO = [l.strip().lower() for l in open("exclusions.txt") if l.strip()]
 except FileNotFoundError:
     pass
+# Title-level filters only at this layer; the vet stage reads full JDs and makes
+# final kill decisions. Cheap precision first, expensive judgment second.
 DROP_TITLE = re.compile(r"\b(staff|principal|lead\b|distinguished|director|head of|\bvp\b|vice president|chief|manager|intern|architect)\b", re.I)
 GAPS = re.compile(r"\b(langchain|langgraph|kubernetes|k8s\b|java\b|scala|kafka|spark|airflow|pytorch|tensorflow)\b", re.I)
 EDGE = [("claude",4),("anthropic",4),("mcp",4),("agent",2),("eval",2),("playwright",3),
@@ -33,6 +49,8 @@ US_HUB = re.compile(r"\b(remote|united states|usa|\bus\b|new york|nyc|san franci
 
 
 def post(url, body, headers=None):
+    # One UA for everything; Consider is indifferent, but Getro 406s requests that
+    # don't explicitly Accept: application/json (passed in by its caller below).
     req = urllib.request.Request(url, data=json.dumps(body).encode(),
                                  headers={"Content-Type": "application/json", "User-Agent": UA, **(headers or {})})
     return json.loads(urllib.request.urlopen(req, timeout=30).read())
@@ -87,6 +105,9 @@ def main():
     print("Getro networks..."); jobs += getro_sweep()
     print(f"  {len(jobs)} raw total")
     for j in jobs:
+        # Dedupe on the CANONICAL ATS apply URL (query params stripped): the same
+        # job appears on multiple VC boards whenever firms co-invested, and the
+        # Lever/Greenhouse/Ashby URL is the one identity they all share.
         key = j["url"].split("?")[0].rstrip("/")
         if not key or key in seen_urls: continue
         seen_urls.add(key)
@@ -96,6 +117,8 @@ def main():
         if not (j["remote"] or US_HUB.search(j["loc"])): continue
         score = sum(w for kw, w in EDGE if kw in j["blob"])
         if GAPS.search(j["title"]): continue
+        # ATS bonus: the submit playbook has proven, captcha-free paths through
+        # Ashby/Greenhouse/Lever, so jobs there are cheaper to act on end-to-end.
         score += 3 if any(a in j["url"] for a in ("ashbyhq", "greenhouse", "lever.co")) else 0
         rows.append((score, j))
     rows.sort(key=lambda r: -r[0])
